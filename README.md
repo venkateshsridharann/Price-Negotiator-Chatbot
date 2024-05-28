@@ -31,7 +31,6 @@ To run the Price Negotiator Chatbot locally, follow these steps:
    ```
     git clone https://github.com/your_username/price-negotiator-chatbot.git
 
-```
 2. Install Dependencies:
 ```
 pipenv install
