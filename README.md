@@ -47,9 +47,9 @@ Open a web browser and go to http://localhost:8000 to access the chatbot interfa
 Interact with the chatbot by typing queries or negotiation requests.
 
 ## Technologies Used
-Django: Web framework for the frontend.
-OpenAI API: Natural language processing for conversation understanding and generation.
-AWS: Cloud hosting platform for deployment and scalability.
+Django: Web framework for the frontend.  
+OpenAI API: Natural language processing for conversation understanding and generation.  
+AWS: Cloud hosting platform for deployment and scalability.  
 
 ## License
 This project is licensed under the MIT License.
