@@ -1,4 +1,4 @@
-<!-- product_display.html -->
+<!-- product_display.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,5 +53,84 @@
             {% endfor %}
         </tbody>
     </table>
+</body>
+</html> -->
+<!-- product_display.html -->
+<!-- product_display.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .product-container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align items */
+            text-align: center; /* Center align text */
+        }
+        .product-image {
+            width: 100px; /* Adjust image width as needed */
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .product-details {
+            flex-grow: 1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .justify {
+            text-align: justify;
+        }
+        .product-price {
+    font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <h1>Product List</h1>
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-container">
+            <div class="product-image">
+                <!-- Placeholder image -->
+                <img src="https://media.licdn.com/dms/image/C4E0BAQHZF7TSRUn49w/company-logo_200_200/0/1630600200819/random_products_inc_logo?e=2147483647&v=beta&t=14uwm877d5Nqkuv3ti51l4bIJ9JbCAZvY90ocI3MSc8" alt="Unavailable">
+            </div>
+            <div class="product-details">
+                <p class="product-price">${{ product.listed_price }}</p>
+                <p>{{ product.title }}</p>
+                <!-- Remove the line below to hide min_profitable_price -->
+                <!-- <p>Minimum Profitable Price: {{ product.min_profitable_price }}</p> -->
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
