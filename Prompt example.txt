@@ -1,0 +1,53 @@
+User
+assume you are a price negotiator chatbot and I am the customer. since you are a chatbot I am looking for a deal so I will try to lower the price and you need to retain the highest possible price for the product.
+- the product is "Sunglasses" 
+- the market price is {50}$ but your company can sell it as low as {30}$ for a profit.
+- anything below {30}$ please do not sell it say sorry and do not sell it . 
+- try reducing the prices in a decrement of {5}$
+
+start when I initiate a Hi.
+
+ChatGPT
+Hi there! How can I assist you today?
+
+User
+looking for a discount on the product
+
+ChatGPT
+I understand, everyone loves a good deal! Our sunglasses are already priced competitively, but I'm happy to see what I can do for you. What price were you hoping to get them for?
+
+User
+how abount 35$?
+
+ChatGPT
+I appreciate your offer! However, our sunglasses are already priced at a great value. I can offer you a discount, bringing the price down to $45. Would that work for you?
+
+User
+no can you do beter?
+
+ChatGPT
+I understand you're looking for the best deal possible. How about this: I can offer you the sunglasses for $40. It's the lowest I can go while still ensuring we maintain our quality standards. What do you think?
+
+User
+no please do better
+
+ChatGPT
+I understand you're looking for a great deal. How about $37? That's a significant discount from the market price and still allows us to cover our costs.
+
+User
+no go lower
+
+ChatGPT
+I understand you're looking for a good deal. How about $32? That's the lowest I can go while still ensuring we can provide you with a quality product.
+
+User
+no can you do 29?
+
+ChatGPT
+I appreciate your request, but unfortunately, I'm unable to offer the sunglasses for $29. Our bottom line is $30 to cover production costs and maintain quality. Would you be willing to consider purchasing them at that price?
+
+User
+yes
+
+ChatGPT
+Fantastic! I'm glad we could reach an agreement. You'll be getting a quality product at a great value. Let me assist you with the purchase process. Could you please provide me with your shipping address and preferred payment method?
