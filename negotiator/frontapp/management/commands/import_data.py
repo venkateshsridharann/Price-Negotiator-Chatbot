@@ -12,11 +12,20 @@ class Command(BaseCommand):
         filename = kwargs['filename']
         with open(filename, 'r') as file:
             reader = csv.DictReader(file)
+            print(reader)
             for row in reader:
+                print(row)
                 product = Product(
-                    title=row['Title'],
+                    title=row['ï»¿Title'],
                     listed_price=float(row['Listed Price']),
-                    min_profitable_price=float(row['Minimum Profitable Price'])
+                    min_profitable_price=float(row['Minimum Profitable Price']),
+                    category=row['Category'],
+                    image=row['Image'],
+                    
+                     
                 )
                 product.save()
         self.stdout.write(self.style.SUCCESS('Data imported successfully'))
+
+
+        

@@ -85,6 +85,17 @@
             margin: 10px 0;
             font-weight: bold;
         }
+        .image-container {
+            max-width: 300px; /* Set maximum width */
+            max-height: 200px; /* Set maximum height */
+            overflow: hidden; /* Hide overflow */
+        }
+        .image-container img {
+            max-width: 100%; /* Resize image to fit container width */
+            max-height: 100%; /* Resize image to fit container height */
+            display: block; /* Remove any potential spacing */
+            margin: auto; /* Center the image horizontally */
+        }
         .product-title {
             font-size: 2em;
             color: #fff;
@@ -118,8 +129,11 @@
     <div class="product-grid">
         {% for product in products %}
         <div class="product-container">
-            <div class="product-image">
-                {{ product.title }}
+            <!-- <div class="product-image"> -->
+                <!-- {{ product.category }} -->
+                <div class="image-container">
+                    <img class="img-thumbnail" src="{{ product.image}}" alt="Product Image" >
+                <!-- </div> -->
             </div>
             <div class="product-details">
                 <p class="product-title">{{ product.title }}</p>
