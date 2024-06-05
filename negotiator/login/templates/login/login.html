@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #89fffd, #ef32d9);
+            margin: 0;
+        }
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            color: #fff;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .form-control {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+        }
+        .form-control::placeholder {
+            color: #ccc;
+        }
+        .btn-primary {
+            width: 100%;
+            background-color: #fff;
+            color: #000;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #ccc;
+        }
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <div class="login-container">
+        <h2 class="text-center">Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input placeholder="Username" type="text" class="form-control" id="id_username" name="username">
+            </div>
+            <div class="form-group">
+                <input placeholder="Password" type="password" class="form-control" id="id_password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+    
+</body>
+</html>
+
+    

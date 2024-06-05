@@ -4,28 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f8f8;
             margin: 0;
             padding: 0;
-            background-image: url('https://static.vecteezy.com/system/resources/previews/008/311/935/non_2x/the-illustration-graphic-consists-of-abstract-background-with-a-blue-gradient-dynamic-shapes-composition-eps10-perfect-for-presentation-background-website-landing-page-wallpaper-vector.jpg');
-            background-size: cover; /* This ensures the background covers the entire page */
-            background-position: center; /* This centers the image */
-            background-repeat: no-repeat; /* This prevents the background image from repeating */
+            background: linear-gradient(135deg, #89fffd, #ef32d9);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             background-attachment: fixed;
         }
-        h1 {
-            text-align: center;
-            color: #333;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 20px;
-            margin: 0;
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
-            z-index: 1000; /* Ensure it stays above other content */
+            z-index: 1000;
+        }
+        .header h1 {
+            margin: 0;
+            padding-left: 150px;
+            color: #333;
+        }
+        .logout {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
         }
         .product-grid {
             display: grid;
@@ -36,44 +50,44 @@
             margin: 0 100px;
         }
         .product-container {
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            color: #fff;
             align-items: center;
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background-color: rgba(240, 240, 240, 0.8);
-            border-radius: 15px;
+
         }
         .product-container:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         .product-image {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #fff;
-    border: 1px solid #000; /* This adds a 1px black border */
-}
-
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+            display: flex;
+            padding: 10px;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #fff;
+            border: 1px solid #e7ff89;
+        }
         .product-details {
             flex-grow: 1;
         }
         .product-price {
-            font-size: 1.2em;
+            font-size: 1.5em;
             color: #e74c3c;
             margin: 10px 0;
             font-weight: bold;
         }
         .product-title {
             font-size: 2em;
-            color: #333;
+            color: #fff;
         }
         .product-title:hover {
             color: #007BFF;
@@ -96,7 +110,11 @@
     </style>
 </head>
 <body>
-    <h1>Product List</h1>
+    <div class="header">
+        <h1>Product List</h1>
+        <a href="{% url 'custom_logout' %}" class="btn btn-danger logout">Logout</a>
+    </div>
+    
     <div class="product-grid">
         {% for product in products %}
         <div class="product-container">
@@ -106,7 +124,6 @@
             <div class="product-details">
                 <p class="product-title">{{ product.title }}</p>
                 <p class="product-price">${{ product.listed_price }}</p>
-                
             </div>
         </div>
         {% endfor %}
