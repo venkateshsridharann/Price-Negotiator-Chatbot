@@ -22,16 +22,16 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: sticky;
+            /* position: sticky; */
             top: 0;
             z-index: 1000;
         }
         .header h1 {
             margin: 0;
             padding-left: 150px;
-            color: #333;
+            color: #fff;
         }
         .logout {
             background-color: red;
@@ -136,7 +136,7 @@
                 <!-- </div> -->
             </div>
             <div class="product-details">
-                <p class="product-title">{{ product.title }}</p>
+                <a href="/chat/{{product.id}}""><p class="product-title">{{ product.title }}</p></a>
                 <p class="product-price">${{ product.listed_price }}</p>
             </div>
         </div>
