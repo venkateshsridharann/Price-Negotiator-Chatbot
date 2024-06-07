@@ -8,9 +8,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            margin: 0;
-            padding: 0;
             background: linear-gradient(135deg, #89fffd, #ef32d9);
             background-size: cover;
             background-position: center;
@@ -18,22 +15,19 @@
             background-attachment: fixed;
         }
         .header {
-            
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
             background-color: rgba(0, 0, 0, 0.7);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* position: sticky; */
             top: 0;
             z-index: 1000;
+            padding: 8px 16px;
         }
-        .header h1 {
-            
+        .header h2 {
             margin: 0;
-            padding-left: 150px;
             color: #fff;
+            font-family:'Fantasy';
         }
         .logout {
             background-color: red;
@@ -43,24 +37,21 @@
             cursor: pointer;
             font-size: 16px;
         }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+        .product-list {
             padding: 50px;
             padding-top: 100px;
-            margin: 0 100px;
+            margin: 0 auto;
         }
         .product-container {
             background-color: rgba(0, 0, 0, 0.8);
-            padding: 30px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            color: #fff;
+            margin-bottom: 20px;
+            display: flex;
             align-items: center;
-
+            color: #fff;
+            height: 250px; /* Set a fixed height for consistency */
         }
         .product-container:hover {
             transform: translateY(-5px);
@@ -69,9 +60,8 @@
         .product-image {
             width: 100px;
             height: 100px;
-            margin-bottom: 10px;
+            margin-right: 20px;
             display: flex;
-            padding: 10px;
             align-items: center;
             justify-content: center;
             font-size: 14px;
@@ -88,62 +78,47 @@
             font-weight: bold;
         }
         .image-container {
-            max-width: 300px; /* Set maximum width */
-            max-height: 200px; /* Set maximum height */
-            overflow: hidden; /* Hide overflow */
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            margin-right: 20px;
         }
         .image-container img {
-            max-width: 100%; /* Resize image to fit container width */
-            max-height: 100%; /* Resize image to fit container height */
-            display: block; /* Remove any potential spacing */
-            margin: auto; /* Center the image horizontally */
+            width: 100%;
+            height: auto;
+            display: block;
         }
         .product-title {
-            font-size: 2em;
+            font-size: 1.5em;
             color: #fff;
         }
         .product-title:hover {
             color: #007BFF;
         }
-        @media (max-width: 1200px) {
-            .product-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        @media (max-width: 900px) {
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 600px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Product List</h1>
+        <h2>Bam!horizon</h2>
         <a href="{% url 'custom_logout' %}" class="btn btn-danger logout">Logout</a>
     </div>
     
-    <div class="product-grid">
-        {% for product in products %}
-        <div class="product-container">
-            <!-- <div class="product-image"> -->
-                <!-- {{ product.category }} -->
-                <div class="image-container">
-                    <img class="img-thumbnail" src="{{ product.image}}" alt="Product Image" >
-                <!-- </div> -->
+    <div class="container product-list">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-6 col-lg-4">
+                <div class="product-container">
+                    <div class="image-container">
+                        <img class="img-thumbnail" src="{{ product.image }}" alt="Product Image">
+                    </div>
+                    <div class="product-details">
+                        <a href="/chat/{{product.id}}"><p class="product-title">{{ product.title }}</p></a>
+                        <p class="product-price">${{ product.listed_price }}</p>
+                    </div>
+                </div>
             </div>
-            
-            <div class="product-details">
-                <a href="/chat/{{product.id}}"><p class="product-title">{{ product.title }}</p></a>
-                <p class="product-price">${{ product.listed_price }}</p>
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </body>
 </html>

@@ -24,12 +24,12 @@
         #product-details {
             width: 20%;
             padding: 20px;
-            padding-top: 0px !important;
+            padding-top: 15px !important;
             background-color: rgba(240, 240, 240, 0.5);
             border-right: 1px solid #ccc;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            
         }
 
         #product-details h1 {
@@ -177,6 +177,7 @@
             border-radius: 5px;
             width: 100%;
             color: #fff;
+            margin: 0px;
         }
 
         .back:hover {
@@ -200,13 +201,12 @@
         .chatsession-container {
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
     height: calc(130vh - 200px); /* Set the height as needed */
     overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .chat-session {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.3);
     padding: 2px;
     border-radius: 10px;
     margin: 10px auto;
@@ -234,10 +234,11 @@
 </head>
 <div id="container">    
     <div id="product-details">    
-        <div class="chatsession-container">
-            <a href="/"><div class="back">Back</div></a>
+        <a href="/"><div class="back">Back</div></a>
+        <br><br>
+            <h3>Chat Sessions</h3>
             <br>
-            <p>Chat Sessions</p>
+        <div class="chatsession-container">
             {% for chat_session in chat_sessions %}
                 <div class="chat-session">
                     <p class="chat-content">{{ chat_session.content }}</p>

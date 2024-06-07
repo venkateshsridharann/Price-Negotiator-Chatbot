@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function sendMessage() {
         const userText = userInput.value.trim();
         if (userText) {
-            addMessage(userText, 'user');
+            addMessage('You: ' + userText, 'user');
             setTimeout(() => {
-                const botResponse = `Response Test response : ${userText}`; // Generate bot response
+                const botResponse = `Bot: ${userText} + Response`; // Generate bot response
                 addMessage(botResponse, 'bot');
             }, 1000);
             userInput.value = '';
