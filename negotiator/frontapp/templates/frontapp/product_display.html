@@ -18,6 +18,7 @@
             background-attachment: fixed;
         }
         .header {
+            
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -29,6 +30,7 @@
             z-index: 1000;
         }
         .header h1 {
+            
             margin: 0;
             padding-left: 150px;
             color: #fff;
@@ -135,8 +137,9 @@
                     <img class="img-thumbnail" src="{{ product.image}}" alt="Product Image" >
                 <!-- </div> -->
             </div>
+            
             <div class="product-details">
-                <a href="/chat/{{product.id}}""><p class="product-title">{{ product.title }}</p></a>
+                <a href="/chat/{{product.id}}"><p class="product-title">{{ product.title }}</p></a>
                 <p class="product-price">${{ product.listed_price }}</p>
             </div>
         </div>

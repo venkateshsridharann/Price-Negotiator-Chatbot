@@ -1,175 +1,271 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-Page Chatbot</title>
-    <link rel="stylesheet" href="styles.css">
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body, html {
-    height: 100%;
-    font-family: Arial, sans-serif;
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     
+    <style>
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background:linear-gradient(135deg, #89fffd, #ef32d9);
+            position: sticky;
+        }
+
+        #container {
+            display: flex;
+            height: 100%;
+        }
+
+        #product-details {
+            width: 20%;
+            padding: 20px;
+            padding-top: 0px !important;
+            background-color: rgba(240, 240, 240, 0.5);
+            border-right: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #product-details h1 {
+            margin-bottom: 20px;
+        }
+
+        #product-details p {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        #chat-container {
+            margin-top: 50px;
+            margin-left: 28px;
+            display: flex;
+            flex-direction: column;
+            width: 66.67%;
+            justify-content: space-between;
+            
+        }
+
+        #chat-box {
+     margin-right: 10%;
+    flex: 1;
+    padding-left: 300px;
+    padding-left: 20px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    margin: 30 auto;
+    height: calc(100vh - 200px); 
+        }
+        /* Scrollbar Track */
+#chat-box::-webkit-scrollbar {
+  width: 12px; /* Set the width of the scrollbar */
+  
 }
 
-#container {
-    display: flex;
-    height: 100%;
-    
+/* Scrollbar Handle */
+#chat-box::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1); /* Set the color and transparency of the scrollbar */
+  border-radius: 6px; /* Rounded corners for the scrollbar handle */
 }
 
-#product-details {
-    width: 30%;
-    padding: 20px;
-    background-color: rgba(240, 240, 240, 0.5);
-    border-right: 1px solid #ccc;
-    display: flex;
-    justify-content: center;
+/* Optional: Hover Effect on Scrollbar Handle */
+#chat-box::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5); /* Adjust transparency on hover */
+}
+
+        #chat-output {
+            display: flex;
+            flex-direction: column;
+            margin-left: 220px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 60%;
+        }
+
+        .user-message {
+            background-color: #89fffd;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background-color: #ec79df;
+            align-self: flex-start;
+        }
+
+        #user-input-container {
+            display: flex;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 90%;
+            border-top: 1px solid #ccc;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            margin-left: 200px;
+            position: sticky;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #send-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .product-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: auto;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            margin: auto;
+        }
+
+        .image-container {
+            max-width: 300px;
+            max-height: 200px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1em;
+            color: #e74c3c;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .back {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            color: #fff;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .end {
+            position: absolute;
+            top: 10px;
+            left: 80px;
+            color: #0000ee;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .end:hover {
+            text-decoration: underline;
+        }
+
+        
+        .chatsession-container {
+    flex-direction: column;
     align-items: center;
+    margin-top: 50px;
+    height: calc(130vh - 200px); /* Set the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
-#product-details h1 {
-    margin-bottom: 20px;
-}
-
-#product-details p {
-    font-size: 1.2em;
+.chat-session {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2px;
+    border-radius: 10px;
+    margin: 10px auto;
+    width: 100%;
     color: #333;
 }
 
-#chat-container {
-    display: flex;
-    flex-direction: column;
-    width: 66.67%;
-    justify-content: space-between;
-    /* background-color: #f4f4f4; */
+/* Scrollbar Track */
+.chatsession-container::-webkit-scrollbar {
+    width: 12px; /* Set the width of the scrollbar */
 }
 
-#chat-box {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: rgba(0, 0, 0, 0);
-    
+/* Scrollbar Handle */
+.chatsession-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1); /* Set the color and transparency of the scrollbar */
+    border-radius: 6px; /* Rounded corners for the scrollbar handle */
 }
 
-#chat-output {
-    display: flex;
-    flex-direction: column;
+/* Optional: Hover Effect on Scrollbar Handle */
+.chatsession-container::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Adjust transparency on hover */
 }
-
-.message {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 60%;
-}
-
-.user-message {
-    background-color: #d1e7dd;
-    align-self: flex-end;
-}
-
-.bot-message {
-    background-color: #f8d7da;
-    align-self: flex-start;
-}
-
-#user-input-container {
-    display: flex;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.8);
-    width: 80%;
-    border-top: 1px solid #ccc;
-    margin: 0 auto;
-    margin-bottom: 20px;
-
-}
-
-#user-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-#send-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.product-container {
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-}
-
-#send-button:hover {
-    background-color: #0056b3;
-}
-
-.image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-    margin: auto;
-}
-
-.image-container {
-    max-width: 300px;
-    max-height: 200px;
-    overflow: hidden;
-}
-
-.product-price {
-    font-size: 1em;
-    color: #e74c3c;
-    margin: 10px 0;
-    font-weight: bold;
-}
-</style>
+    </style>
+    <script src="{% static 'truncate.js' %}" defer></script>
 </head>
-<body style="background: linear-gradient(135deg, #89fffd, #ef32d9);">
-    <div id="container">
-        <div id="product-details">
-            <div class="product-container">
-                <div class="image-container">
-                    <img class="img-thumbnail" src="{{ product.image }}" alt="Product Image">
+<div id="container">    
+    <div id="product-details">    
+        <div class="chatsession-container">
+            <a href="/"><div class="back">Back</div></a>
+            <br>
+            <p>Chat Sessions</p>
+            {% for chat_session in chat_sessions %}
+                <div class="chat-session">
+                    <p class="chat-content">{{ chat_session.content }}</p>
                 </div>
-                <h1 id="product-title">{{product.title}}</h1>
-                <h2>The market price is <span class="product-price">${{product.listed_price}}</span></h2>
-            </div>
-        </div>
-        <div id="chat-container">
-            <div id="chat-box">
-                <div id="chat-output"></div>
-            </div>
-            <div id="user-input-container">
-                <input type="text" id="user-input" placeholder="Type your message...">
-                <button id="send-button">Send</button>
-            </div>
+            {% endfor %}
         </div>
     </div>
-    <script src="script.js"></script>
+    <div id="chat-container">
+        <div id="chat-box">
+            <div id="chat-output"></div>
+        </div>
+        <div id="user-input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var chatContents = document.querySelectorAll('.chat-content');
+        chatContents.forEach(function(content) {
+            var text = content.textContent.trim();  // Trim to remove extra whitespace
+            if (text.length > 33) {
+                content.textContent = text.slice(0, 33) + '...';
+            }
+        });
+    });
+</script>
+<script src="{% static 'chat.js' %}"></script>
 </body>
 </html>
