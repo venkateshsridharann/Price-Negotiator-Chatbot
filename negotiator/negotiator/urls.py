@@ -22,5 +22,6 @@ urlpatterns = [
     path('', include('frontapp.urls')),  # Map to your app's URLs
     path('auth/', include('login.urls')),
     path('chat/', include('chat.urls')),
+    path('cart/', include('cart.urls')),  # Including URLs from the cart app
     # Other URL patterns...
 ]

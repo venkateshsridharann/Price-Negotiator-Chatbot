@@ -1,14 +1,17 @@
+from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from frontapp.models import Product
-from .models import ChatSession
-
+from .models import Product, CartItem
 
 @login_required
-def product_detail(request, product_id):
+def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    chat_sessions = ChatSession.objects.filter(product=product)
-    return render(request, 'chat_interface.html', {'product': product, 'chat_sessions': chat_sessions})
+    cart_item, created = CartItem.objects.get_or_create(user=request.user, product=product)
+    
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    
+    return redirect('/')
 
 
 
@@ -27,3 +30,9 @@ def remove_from_cart(request, item_id):
         cart_item.delete()
 
     return redirect('cart_detail')
+
+
+@login_required
+def cart_detail(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    return render(request, 'cart_detail.html', {'cart_items': cart_items})
