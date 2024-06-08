@@ -19,9 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('frontapp.urls')),  # Map to your app's URLs
+    path('', include('frontapp.urls')),  
     path('auth/', include('login.urls')),
     path('chat/', include('chat.urls')),
-    path('cart/', include('cart.urls')),  # Including URLs from the cart app
-    # Other URL patterns...
+    path('cart/', include('cart.urls')),  
 ]

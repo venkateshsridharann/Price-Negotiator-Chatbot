@@ -1,11 +1,11 @@
 from django.db import models
-from frontapp.models import Product
+from django.contrib.auth.models import User
 
 class ChatSession(models.Model):
     """
-    Represents a chat session associated with a product.
+    Represents a chat session 
     """
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='chat_sessions')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(default='')
 
 class Message(models.Model):

@@ -14,7 +14,7 @@
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            height: 100px;
+            height: 800px;
         }
 
         .text-black {
@@ -34,13 +34,6 @@
             height: auto;
         }
 
-        .card {
-            
-        }
-
-        .card-body {
-            /* padding: 2rem; */
-        }
 
         .form-control {
             min-width: 0;
@@ -161,8 +154,8 @@
                         <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
                     </div>
                     {% for item in cart_items %}
-                    <div class="card rounded-3 mb-4">
-                        <div class="card-body p-4">
+                    <div class="card rounded-3 ">
+                        <div class="card-body ">
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="col-md-2 col-lg-2 col-xl-2">
                                     <img src="{{ item.product.image }}" class="img-fluid rounded-3" alt="{{ item.product.title }}">
@@ -197,7 +190,7 @@
                 <div class="col-4">
                     <div class="card grandtotal">
                         <div class="card-body p-5">
-                            <h1 style="text-align: center;">Your current total is ${{ grandtotal|floatformat:2 }}</h1>
+                            <h1 style="text-align: center;">Total ${{ grandtotal|floatformat:2 }}</h1>
                         </div>
                     </div>
                     <div class="card proceed">
