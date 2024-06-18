@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "af42abefb766e975f7680f10368735353569fb4fe0114e59496a7202658362fc"
+            "sha256": "3c63da68fe8dd693b758d87dd45fca9880d4ff3eadced842689f7526f5eac59e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,12 @@
         ]
     },
     "default": {
+        "antiorm": {
+            "hashes": [
+                "sha256:96eb1841ce5163db4cf1dc13f4499ec2d7cffc190cf724b78ffdd3e6b7c4ff93"
+            ],
+            "version": "==1.2.1"
+        },
         "asgiref": {
             "hashes": [
                 "sha256:3e1e3ecc849832fe52ccf2cb6686b7a55f82bb1d6aee72a58826471390335e47",
@@ -23,6 +29,19 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==3.8.1"
+        },
+        "db": {
+            "hashes": [
+                "sha256:980e772f15c1161d3b287ffec4f144e40961b0b3e6d5102809577870bf6c5808"
+            ],
+            "version": "==0.1.1"
+        },
+        "db-sqlite3": {
+            "hashes": [
+                "sha256:4dd410aa28a2c5b66de477f9dc62f523133217dd31c7ed7eb085214bea148db9"
+            ],
+            "index": "pypi",
+            "version": "==0.0.1"
         },
         "django": {
             "hashes": [
