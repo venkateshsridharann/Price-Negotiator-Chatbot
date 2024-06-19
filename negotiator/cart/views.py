@@ -49,3 +49,4 @@ def cart_detail(request):
     cart_items = CartItem.objects.filter(user=request.user)
     grandtotal = sum(item.cartTotal for item in cart_items)
     return render(request, 'cart_detail.html', {'cart_items': cart_items, 'grandtotal': grandtotal})
+
