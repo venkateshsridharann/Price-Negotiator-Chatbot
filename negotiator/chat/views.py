@@ -5,9 +5,7 @@ from .models import ChatSession, Message
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from datetime import datetime
-
 import json
-
 
 
 @login_required
@@ -19,10 +17,10 @@ def all_chats(request):
 
 @login_required
 def delete_chat(request, pk):
-    item = get_object_or_404(ChatSession, pk=pk)
+    chat = get_object_or_404(ChatSession, pk=pk)
     messages =  messages_to_delete = Message.objects.filter(chat_session=pk)
     messages_to_delete.delete()
-    item.delete()
+    chat.delete()
     return redirect('/chat')
 
 @login_required
@@ -32,3 +30,13 @@ def add_chat(request):
     # Redirect to the chat interface
     return redirect(reverse('all_chats'))
 
+@login_required
+def load_chat(request,pk):
+    messages = Message.objects.filter(chat_session=pk)
+    print(messages)
+    chat_sessions = ChatSession.objects.filter(user=request.user)
+    return render(request, 'chat_interface.html', {'chat_sessions': chat_sessions, "messages":messages})
+
+@login_required
+def add_message(requests):
+    pass

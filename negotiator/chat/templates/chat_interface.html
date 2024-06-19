@@ -70,6 +70,12 @@
         #chat-box::-webkit-scrollbar-thumb:hover {
             background-color: rgba(255, 255, 255, 0.5);
         }
+        #context-box {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 5px;
+            color: white;
+            padding: 10px;
+        }
         #chat-output {
             display: flex;
             flex-direction: column;
@@ -191,12 +197,11 @@
             padding: 2px;
             border-radius: 10px;
             margin: 10px auto;
-
             width: 100%;
             color: #333;
             display: flex;
             justify-content: space-between; 
-            align-items: top; /* Vertically center items */
+            align-items: top; 
             
         }
         .chatsession-container::-webkit-scrollbar {
@@ -223,7 +228,7 @@
             <div class="chatsession-container">
                 {% for chat_session in chat_sessions %}
                     <div class="chat-session">
-                        <p class="chat-content">{{ chat_session.content }}</p>
+                        <a href="/chat/load_chat/{{chat_session.id}}"><p class="chat-content">{{ chat_session.content }}</p></a>
                         <a href="delete/{{chat_session.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="delete-icon">
                             <path fill="currentColor" fill-rule="evenodd" d="M10.556 4a1 1 0 0 0-.97.751l-.292 1.14h5.421l-.293-1.14A1 1 0 0 0 13.453 4zm6.224 1.892-.421-1.639A3 3 0 0 0 13.453 2h-2.897A3 3 0 0 0 7.65 4.253l-.421 1.639H4a1 1 0 1 0 0 2h.1l1.215 11.425A3 3 0 0 0 8.3 22H15.7a3 3 0 0 0 2.984-2.683l1.214-11.425H20a1 1 0 1 0 0-2zm1.108 2H6.112l1.192 11.214A1 1 0 0 0 8.3 20H15.7a1 1 0 0 0 .995-.894zM10 10a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1m4 0a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1" clip-rule="evenodd"/>
                         </svg>
@@ -236,7 +241,19 @@
         </div>
         <div id="chat-container">
             <div id="chat-box">
-                <div id="chat-output"></div>
+                {% if messages %}
+                    <div id="context-box" style="margin-left: 220px;">
+                        <h3>Previous Chat</h3>
+                    </br>
+                        {% for m in messages %}
+                            
+                            <div id="context">{{ m.sender }}: {{ m.content }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div id="chat-output">
+                </div>
+                
             </div>
             <div id="user-input-container">
                 <input type="text" id="user-input" placeholder="Type your message...">
