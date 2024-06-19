@@ -7,6 +7,7 @@ class ChatSession(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(default='')
+    date = models.DateField(auto_now_add=True)
 
 class Message(models.Model):
     """

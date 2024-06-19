@@ -33,16 +33,14 @@ def remove_from_cart(request, item_id):
             cart_item.cartTotal -= cart_item.product.listed_price
             cart_item.quantity -= 1
             cart_item.save()
-
     elif action == 'increase':
         cart_item.cartTotal += cart_item.product.listed_price
         cart_item.quantity += 1
         cart_item.save()
-        
     elif action == 'remove':
         cart_item.delete()
-
     return redirect('cart_detail')
+
 
 @login_required
 def cart_detail(request):
