@@ -14,16 +14,43 @@ document.addEventListener('DOMContentLoaded', function() {
             sendMessage();
         }
     });
-    
+
     function sendMessage()
     {
         const userInput = document.getElementById('user-input');
         const userText = userInput.value; // Get the value entered by the user
+        let botResponse_ = '';
+
         if (userText) {
-            addMessage('You: ' + userText, 'user');
+            addMessage('user: ' + userText, 'user');
             setTimeout(() => {
                 const botResponse = `Bot: ${userText} + Response`; // Generate bot response
+                botResponse_= botResponse.replace("Bot: ", "");
                 addMessage(botResponse, 'bot');
+                
+                // saving bot message
+                fetch('send_message/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken') // Add CSRF token for security
+                    },
+                    body: new URLSearchParams({
+                        'user_input': botResponse_,
+                        'chat_id': chat_id_,
+                        'sender': 'bot',
+                        
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        console.log('Data saved successfully!')
+                    } else {
+                        console.log('Failed to save data.')
+                    }
+                })
+                .catch(error => console.error('Error:', error));
             }, 1000);
             userInput.value = '';
         }// const sendButton = document.getElementById('send-button');
@@ -32,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(chat_id);
         const chat_id_ = chat_id.value;
         
+        // saving user message
         fetch('send_message/', {
             method: 'POST',
             headers: {
@@ -54,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .catch(error => console.error('Error:', error));
+
     
     }
     function getCookie(name) {
