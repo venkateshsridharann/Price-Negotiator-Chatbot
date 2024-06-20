@@ -15,76 +15,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    function sendMessage()
-    {
+    function sendMessage() {
         const userInput = document.getElementById('user-input');
-        const userText = userInput.value; // Get the value entered by the user
-        let botResponse_ = '';
-
-        if (userText) {
-            addMessage(userText, 'user');
-            setTimeout(() => {
-                const botResponse = `${userText} + Response`; // Generate bot response
-                botResponse_= botResponse.replace("Bot: ", "");
-                addMessage(botResponse, 'bot');
-                
-                // saving bot message
-                fetch('send_message/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-CSRFToken': getCookie('csrftoken') // Add CSRF token for security
-                    },
-                    body: new URLSearchParams({
-                        'user_input': botResponse_,
-                        'chat_id': chat_id_,
-                        'sender': 'bot',
-                        
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        console.log('Data saved successfully!')
-                    } else {
-                        console.log('Failed to save data.')
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            }, 1000);
-            userInput.value = '';
-        }// const sendButton = document.getElementById('send-button');
-        // const chatOutput = document.getElementById('chat-output');
-        const chat_id = document.getElementById('chat-session-id');
-        console.log(chat_id);
-        const chat_id_ = chat_id.value;
-        
-        // saving user message
-        fetch('send_message/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': getCookie('csrftoken') // Add CSRF token for security
-            },
-            body: new URLSearchParams({
-                'user_input': userText,
-                'chat_id': chat_id_,
-                'sender': 'user',
-                
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                console.log('Data saved successfully!')
-            } else {
-                console.log('Failed to save data.')
-            }
-        })
-        .catch(error => console.error('Error:', error));
-
+        const userText = userInput.value.trim(); // Get the trimmed value entered by the user
+        const chat_id = document.getElementById('chat-session-id').value;
     
+        if (userText) {
+            userInput.disabled = true;
+            sendButton.disabled = true;
+            addMessage(userText, 'user');
+    
+            fetch('send_message/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken') // Add CSRF token for security
+                },
+                body: new URLSearchParams({
+                    'user_input': userText,
+                    'chat_id': chat_id,
+                    'sender': 'user',
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const botResponse = data.message; // Adjust based on your server's response structure
+                    addMessage(botResponse, 'bot');
+                } else {
+                    console.log('Failed to send message:', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+                // Re-enable input and button after response
+                userInput.disabled = false;
+                sendButton.disabled = false;
+            });
+
+            userInput.value = '';
+        }
     }
+    
+    // Function to add message to chat output
+    function addMessage(text, sender) {
+        const message = document.createElement('div');
+        message.classList.add('message', `${sender}-message`);
+        message.textContent = text;
+        const chatOutput = document.getElementById('chat-output');
+        chatOutput.appendChild(message);
+        chatOutput.scrollTop = chatOutput.scrollHeight;
+    }
+    
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -99,13 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return cookieValue;
     }
-    function addMessage(text, sender) {
-        const message = document.createElement('div');
-        message.classList.add('message', `${sender}-message`);
-        message.textContent = text;
-        chatOutput.appendChild(message);
-        chatOutput.scrollTop = chatOutput.scrollHeight;
-    }
+    
 });
 
 

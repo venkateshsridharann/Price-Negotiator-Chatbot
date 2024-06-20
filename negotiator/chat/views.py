@@ -6,8 +6,9 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from datetime import datetime
 import json
+from . import openai_chat
 from django.views.decorators.csrf import csrf_exempt
-
+import time
 
 @login_required
 def all_chats(request):
@@ -45,6 +46,11 @@ def send_message(request):
         chat_id = request.POST.get('chat_id')
         chat_id = int(chat_id)
         chat_session = ChatSession.objects.filter(id=chat_id)[0]
+        all_messages = Message.objects.filter(chat_session=chat_session)
         Message.objects.create(content=content,sender=sender,chat_session=chat_session)
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'fail'}, status=400)
+        if sender=='user':
+            openai_response = openai_chat.chat_with_gpt(content,all_messages)
+            print(openai_response)
+        Message.objects.create(content=openai_response,sender='bot',chat_session=chat_session)
+        return JsonResponse({'status': 'success', 'message': openai_response})  # Return JSON response
+    return JsonResponse({'status': 'fail', 'message': 'Invalid request'}, status=400)
