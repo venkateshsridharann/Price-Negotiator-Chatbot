@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token }}">
+     
     <title>Chatbot</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -73,7 +74,6 @@
         #context-box {
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 5px;
-            color: white;
             padding: 10px;
         }
         #chat-output {
@@ -215,6 +215,7 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div id="container">    
@@ -224,58 +225,53 @@
             <br><br>
             <h3 style="color: #fff;">Chat Sessions</h3>
             <br>
-            
+            <!-- left side chat sessions container -->
             <div class="chatsession-container">
                 {% for chat_session in chat_sessions %}
                     <div class="chat-session">
-                        <a href="/chat/load_chat/{{chat_session.id}}"><p class="chat-content">{{ chat_session.content }}</p></a>
+                        <a href="/chat/{{chat_session.id}}"><p class="chat-content">{{ chat_session.content }}</p></a>
                         <a href="delete/{{chat_session.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="delete-icon">
                             <path fill="currentColor" fill-rule="evenodd" d="M10.556 4a1 1 0 0 0-.97.751l-.292 1.14h5.421l-.293-1.14A1 1 0 0 0 13.453 4zm6.224 1.892-.421-1.639A3 3 0 0 0 13.453 2h-2.897A3 3 0 0 0 7.65 4.253l-.421 1.639H4a1 1 0 1 0 0 2h.1l1.215 11.425A3 3 0 0 0 8.3 22H15.7a3 3 0 0 0 2.984-2.683l1.214-11.425H20a1 1 0 1 0 0-2zm1.108 2H6.112l1.192 11.214A1 1 0 0 0 8.3 20H15.7a1 1 0 0 0 .995-.894zM10 10a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1m4 0a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1" clip-rule="evenodd"/>
                         </svg>
                         </a>
                         
                     </div>
-                    
                 {% endfor %}
             </div>
         </div>
+        <!-- right side chat window container-->
         <div id="chat-container">
             <div id="chat-box">
+                <input type="hidden" id="chat-session-id">
                 {% if messages %}
                     <div id="context-box" style="margin-left: 220px;">
-                        <h3>Previous Chat</h3>
+                        <h3 style="color: white;">Previous Chats</h3>
                     </br>
                         {% for m in messages %}
-                            
-                            <div id="context">{{ m.sender }}: {{ m.content }}</div>
+                            <div class= "message {% if m.sender == 'bot' %}bot-message{% else %}user-message{% endif %}" id="context">{{ m.sender }}:{{ m.content }}</div>
                         {% endfor %}
                     </div>
                 {% endif %}
+                <br>
+
                 <div id="chat-output">
                 </div>
                 
             </div>
             <div id="user-input-container">
+
                 <input type="text" id="user-input" placeholder="Type your message...">
                 <button id="send-button">Send</button>
             </div>
         </div>
     </div>
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var chatContents = document.querySelectorAll('.chat-content');
-            chatContents.forEach(function(content) {
-                var text = content.textContent.trim();
-                if (text.length > 33) {
-                    content.textContent = text.slice(0, 33) + '...';
-                }
-            });
-        });
-    </script>
-
-    
+   
     <script src="{% static 'chat.js' %}"></script>
+    
+    <script>
+        var currentUrl = window.location.href;
+        currentUrl = currentUrl.split('/').pop()
+        document.getElementById('chat-session-id').value = currentUrl;
+    </script>
 </body>
 </html>

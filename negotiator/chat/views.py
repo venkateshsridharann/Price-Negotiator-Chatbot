@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from datetime import datetime
 import json
+from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required
@@ -33,10 +34,20 @@ def add_chat(request):
 @login_required
 def load_chat(request,pk):
     messages = Message.objects.filter(chat_session=pk)
-    print(messages)
     chat_sessions = ChatSession.objects.filter(user=request.user)
     return render(request, 'chat_interface.html', {'chat_sessions': chat_sessions, "messages":messages})
 
-@login_required
-def add_message(requests):
-    pass
+def send_message(request):
+    if request.method == 'POST':
+        content = request.POST.get('user_input')
+        sender = request.POST.get('sender')
+        chat_id = request.POST.get('chat_id')
+        chat_id = int(chat_id)
+        chat_session = ChatSession.objects.filter(id=chat_id)[0]
+       
+        # Save the data to the database
+        print()
+        
+        Message.objects.create(content=content,sender=sender,chat_session=chat_session)
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'fail'}, status=400)
