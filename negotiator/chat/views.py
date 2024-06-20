@@ -2,13 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import ChatSession, Message
+from cart.models import CartItem
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from datetime import datetime
 import json
 from . import openai_chat
 from django.views.decorators.csrf import csrf_exempt
-import time
 
 @login_required
 def all_chats(request):
@@ -45,11 +45,15 @@ def send_message(request):
         sender = request.POST.get('sender')
         chat_id = request.POST.get('chat_id')
         chat_id = int(chat_id)
+
+        cart_items = CartItem.objects.filter(user=request.user)
+        grandtotal = sum(item.cartTotal for item in cart_items)
+        print(grandtotal)
         chat_session = ChatSession.objects.filter(id=chat_id)[0]
         all_messages = Message.objects.filter(chat_session=chat_session)
         Message.objects.create(content=content,sender=sender,chat_session=chat_session)
         if sender=='user':
-            openai_response = openai_chat.chat_with_gpt(content,all_messages)
+            openai_response = openai_chat.chat_with_gpt(content,all_messages,grandtotal)
             print(openai_response)
         Message.objects.create(content=openai_response,sender='bot',chat_session=chat_session)
         return JsonResponse({'status': 'success', 'message': openai_response})  # Return JSON response
