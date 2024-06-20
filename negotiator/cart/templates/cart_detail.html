@@ -1,281 +1,176 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token }}">
-    <title>Chatbot</title>
+    <title>Your Cart</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
     <style>
-        body, html {
-            height: 100%;
-            font-family: Arial, sans-serif;
-            background:linear-gradient(135deg, #89fffd, #ef32d9);
-            position: sticky;
-        }
-        .delete-icon{
-            height: 20px;
-            width: 20px;
-            margin-left: 10px; 
-            margin-right: 10px; 
-           color: #e74c3c;
+        .text-black {
+            color: #000 !important;
         }
 
-        #container {
-            display: flex;
-            height: 100%;
+        .fw-normal {
+            font-weight: 400 !important;
         }
-        #product-details {
-            width: 20%;
-            padding: 20px;
-            padding-top: 15px !important;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-right: 1px solid #ccc;
-            display: flex;
-            flex-direction: column;
+
+        .rounded-3 {
+            border-radius: 1 !important;
         }
-        #product-details h {
-            margin-bottom: 20px;
-        }
-        #product-details p {
-            font-size: 1.2em;
-            color: #333;
-        }
-        #chat-container {
-            margin-top: 50px;
-            margin-left: 28px;
-            display: flex;
-            flex-direction: column;
-            width: 66.67%;
-            justify-content: space-between;
-        }
-        #chat-box {
-            margin-right: 10%;
-            flex: 1;
-            padding-left: 20px;
-            overflow-y: auto;
-            background-color: rgba(0, 0, 0, 0);
-            width: 100%;
-            margin: 30 auto;
-            height: calc(100vh - 200px);
-        }
-        #chat-box::-webkit-scrollbar {
-            width: 12px;
-        }
-        #chat-box::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-        }
-        #chat-box::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-        #context-box {
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 5px;
-            color: white;
-            padding: 10px;
-        }
-        #chat-output {
-            display: flex;
-            flex-direction: column;
-            margin-left: 220px;
-        }
-        .message {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            max-width: 60%;
-        }
-        .user-message {
-            background-color: #89fffd;
-            align-self: flex-end;
-        }
-        .bot-message {
-            background-color: #ec79df;
-            align-self: flex-start;
-        }
-        #user-input-container {
-            display: flex;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 90%;
-            border-top: 1px solid #ccc;
-            margin: 0 auto;
-            margin-bottom: 20px;
-            margin-left: 200px;
-            position: sticky;
-        }
-        #user-input {
-            flex: 1;
-            padding: 10px;
-            height: 50px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-        #send-button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .product-container {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: auto;
-        }
-        #send-button:hover {
-            background-color: #0056b3;
-        }
-        .image-container img {
+
+        .img-fluid {
             max-width: 100%;
-            max-height: 100%;
-            display: block;
-            margin: auto;
+            height: auto;
         }
-        .image-container {
-            max-width: 300px;
-            max-height: 200px;
-            overflow: hidden;
+
+
+        .form-control {
+            min-width: 0;
+            width: auto;
+            flex: 1 1 auto;
         }
-        .product-price {
-            font-size: 1em;
-            color: #e74c3c;
-            margin: 10px 0;
-            font-weight: bold;
+
+        .form-control-lg {
+            padding: .5rem 1rem;
+            font-size: 1.25rem;
+            border-radius: .3rem;
         }
-        .back {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            width: 100%;
-            color: #fff;
-            margin: 0px;
-        }
-            #save {
-            background-color: rgba(30, 255, 41, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            width: 100%;
-            color: #000000;
-            margin-top: 10px;
-        }
-        .back:hover {
-            text-decoration: underline;
-        }
-        .end {
-            position: absolute;
-            top: 10px;
-            left: 80px;
-            color: #0000ee;
+
+        .btn-link {
+            color: #0d6efd;
             text-decoration: none;
-            font-size: 16px;
         }
-        .end:hover {
+
+        .btn-link:hover {
+            color: #0a58ca;
             text-decoration: underline;
         }
-        .chatsession-container {
-            flex-direction: column;
-            align-items: center;
-            height: calc(130vh - 200px);
-            overflow-y: auto;
+
+        .btn-warning {
+            color: #fff;
+            background-color: #ffc107;
+            border-color: #ffc107;
         }
-        .chat-session {
-            background-color: #fff;
-            padding: 2px;
-            border-radius: 10px;
-            margin: 10px auto;
-            width: 100%;
-            color: #333;
-            display: flex;
-            justify-content: space-between; 
-            align-items: top; 
-            
+
+        .btn-outline-warning {
+            color: #ffc107;
+            border-color: #ffc107;
         }
-        .chatsession-container::-webkit-scrollbar {
-            width: 12px;
+
+        .btn-outline-warning:hover {
+            color: #212529;
+            background-color: #ffc107;
+            border-color: #ffc107;
         }
-        .chatsession-container::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
+
+        .fa-lg {
+            font-size: 1.5em;
         }
-        .chatsession-container::-webkit-scrollbar-thumb:hover {
-            background-color: rgba(255, 255, 255, 0.5);
+
+        button {
+            background-color: rgba(234, 248, 40, 0.8);
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        img {
+            height: 30px;
+            width: 30px;
+        }
+
+
+        .increase {
+            background-color: rgb(195, 245, 195) !important;
+            color: black;
+        }
+
+        .decrease {
+            background-color: rgb(250, 171, 171) !important;
+            color: black;
+        }
+
+        .container-fluid {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        .row-no-padding {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .col-no-padding {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .grandtotal{
+            padding-bottom: 215px;
+            margin-top: 58px;
         }
     </style>
 </head>
 <body>
-    <div id="container">    
-        <div id="product-details">    
-            <a href="/"><div class="back">Back</div></a>
-            <a href="/chat/add_chat"><div id="save">New Chat</div></a>
-            <br><br>
-            <h3 style="color: #fff;">Chat Sessions</h3>
-            <br>
-            
-            <div class="chatsession-container">
-                {% for chat_session in chat_sessions %}
-                    <div class="chat-session">
-                        <a href="/chat/load_chat/{{chat_session.id}}"><p class="chat-content">{{ chat_session.content }}</p></a>
-                        <a href="delete/{{chat_session.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="delete-icon">
-                            <path fill="currentColor" fill-rule="evenodd" d="M10.556 4a1 1 0 0 0-.97.751l-.292 1.14h5.421l-.293-1.14A1 1 0 0 0 13.453 4zm6.224 1.892-.421-1.639A3 3 0 0 0 13.453 2h-2.897A3 3 0 0 0 7.65 4.253l-.421 1.639H4a1 1 0 1 0 0 2h.1l1.215 11.425A3 3 0 0 0 8.3 22H15.7a3 3 0 0 0 2.984-2.683l1.214-11.425H20a1 1 0 1 0 0-2zm1.108 2H6.112l1.192 11.214A1 1 0 0 0 8.3 20H15.7a1 1 0 0 0 .995-.894zM10 10a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1m4 0a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1" clip-rule="evenodd"/>
-                        </svg>
-                        </a>
-                        
+    <section>
+        {% include 'navbar.html' %}
+        <div class="container-fluid py-5">
+            <div class="row row-no-padding">
+                <div class="col-8 col-no-padding">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
                     </div>
-                    
-                {% endfor %}
-            </div>
-        </div>
-        <div id="chat-container">
-            <div id="chat-box">
-                {% if messages %}
-                    <div id="context-box" style="margin-left: 220px;">
-                        <h3>Previous Chat</h3>
-                    </br>
-                        {% for m in messages %}
-                            
-                            <div id="context">{{ m.sender }}: {{ m.content }}</div>
-                        {% endfor %}
+                    {% for item in cart_items %}
+                    <div class="card rounded-3 ">
+                        <div class="card-body ">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    <img src="{{ item.product.image }}" class="img-fluid rounded-3" alt="{{ item.product.title }}">
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <p class="lead fw-normal mb-2">{{ item.product.title }}</p>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                    <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" name="action" class='decrease' value="decrease">-</button>
+                                        <span> {{ item.quantity }} </span>
+                                        <button type="submit" name="action" class='increase' value="increase">+</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                    <h5 class="mb-0">${{ item.cartTotal }}</h5>
+                                </div>
+                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                    <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" name="action" value="remove" class="btn btn-link text-danger">
+                                            <img src="{% static 'trash.jpg' %}" alt="">
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                {% endif %}
-                <div id="chat-output">
+                    {% endfor %}
                 </div>
-                
-            </div>
-            <div id="user-input-container">
-                <input type="text" id="user-input" placeholder="Type your message...">
-                <button id="send-button">Send</button>
+                <div class="col-4">
+                    <div class="card grandtotal">
+                        <div class="card-body p-5">
+                            <h1 style="text-align: center;">Total ${{ grandtotal|floatformat:2 }}</h1>
+                        </div>
+                    </div>
+                    <div class="card proceed">
+                        <div class="card-body">
+                            <a href="/chat"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-block btn-lg">Proceed to Negotiate</button></a>
+                            <a href="/"><button type="button" style="margin-top: 10px;"  data-mdb-ripple-init class="btn btn-success btn-block btn-lg">Proceed to Pay</button></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var chatContents = document.querySelectorAll('.chat-content');
-            chatContents.forEach(function(content) {
-                var text = content.textContent.trim();
-                if (text.length > 33) {
-                    content.textContent = text.slice(0, 33) + '...';
-                }
-            });
-        });
-    </script>
-
-    
-    <script src="{% static 'chat.js' %}"></script>
+    </section>
 </body>
 </html>
