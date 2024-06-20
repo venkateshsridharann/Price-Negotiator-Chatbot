@@ -29,7 +29,8 @@ def add_chat(request):
     current_datetime = str(datetime.now())[:16]
     new_chat_session = ChatSession.objects.create(user=request.user, content="Chat dated "+ current_datetime)
     # Redirect to the chat interface
-    return redirect(reverse('all_chats'))
+    new_id = str(new_chat_session.id)
+    return redirect('/chat/'+new_id)
 
 @login_required
 def load_chat(request,pk):
@@ -44,10 +45,6 @@ def send_message(request):
         chat_id = request.POST.get('chat_id')
         chat_id = int(chat_id)
         chat_session = ChatSession.objects.filter(id=chat_id)[0]
-       
-        # Save the data to the database
-        print()
-        
         Message.objects.create(content=content,sender=sender,chat_session=chat_session)
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'fail'}, status=400)

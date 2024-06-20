@@ -75,6 +75,8 @@
             background-color: rgba(0, 0, 0, 0.7);
             border-radius: 5px;
             padding: 10px;
+            display: flex;
+            flex-direction: column;
         }
         #chat-output {
             display: flex;
@@ -248,7 +250,7 @@
                         <h3 style="color: white;">Previous Chats</h3>
                     </br>
                         {% for m in messages %}
-                            <div class= "message {% if m.sender == 'bot' %}bot-message{% else %}user-message{% endif %}" id="context">{{ m.sender }}:{{ m.content }}</div>
+                            <div class= "message {% if m.sender == 'bot' %}bot-message{% else %}user-message{% endif %}" id="context">{{ m.content }}</div>
                         {% endfor %}
                     </div>
                 {% endif %}

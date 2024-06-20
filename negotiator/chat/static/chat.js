@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let botResponse_ = '';
 
         if (userText) {
-            addMessage('user: ' + userText, 'user');
+            addMessage(userText, 'user');
             setTimeout(() => {
-                const botResponse = `Bot: ${userText} + Response`; // Generate bot response
+                const botResponse = `${userText} + Response`; // Generate bot response
                 botResponse_= botResponse.replace("Bot: ", "");
                 addMessage(botResponse, 'bot');
                 
