@@ -12,9 +12,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def all_chats(request):
+    current_url = request.build_absolute_uri()
+    url_segments = current_url.split('/')
+    indicator = True if url_segments[-1] == '' else False
     # Filter chat sessions by the logged-in user
     chat_sessions = ChatSession.objects.filter(user=request.user)
-    return render(request, 'chat_interface.html', { 'chat_sessions': chat_sessions})
+    return render(request, 'chat_interface.html', { 'chat_sessions': chat_sessions, 'indicator':indicator})
 
 
 @login_required
@@ -32,6 +35,23 @@ def add_chat(request):
     # Redirect to the chat interface
     new_id = str(new_chat_session.id)
     return redirect('/chat/'+new_id)
+
+@login_required
+def chat_edit(request,pk):
+    messages = Message.objects.filter(chat_session=pk)
+    chat_sessions = ChatSession.objects.filter(user=request.user)
+    # chat to edit
+    chat_session = get_object_or_404(ChatSession, id=pk)
+    chat_session.save()
+    if request.method == 'POST':
+        updated_content = request.POST.get('updated_content', '')
+        chat_session.content = updated_content
+        chat_session.save()
+
+    return redirect('/chat/'+str(pk))
+    # return render(request, 'chat_interface.html', {'chat_sessions': chat_sessions, "messages":messages})
+
+
 
 @login_required
 def load_chat(request,pk):

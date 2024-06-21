@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const userInput = document.getElementById('user-input');
-    const userText = userInput.value; // Get the value entered by the user
+    const userText = userInput.value; // Get the value entered by the user}
     const sendButton = document.getElementById('send-button');
     const chatOutput = document.getElementById('chat-output');
     const chat_id = document.getElementById('chat-session-id');
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const userInput = document.getElementById('user-input');
         const userText = userInput.value.trim(); // Get the trimmed value entered by the user
         const chat_id = document.getElementById('chat-session-id').value;
-    
         if (userText) {
             userInput.disabled = true;
             sendButton.disabled = true;
@@ -82,6 +81,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return cookieValue;
     }
     
+
+    document.getElementById('new-chat').addEventListener('click', function() {
+        console.log(window.location.href)
+        window.location.href = '/chat/add_chat';
+    });
+
+
 });
-
-
