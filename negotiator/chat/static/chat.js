@@ -84,4 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 
+// JavaScript function to toggle visibility of edit form
+function toggleEditForm(chatId) {
+    var form = document.getElementById('editForm' + chatId);
+    form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+    form.action = 'chat/edit/' + chatId; // Update form action dynamically
+}
 
