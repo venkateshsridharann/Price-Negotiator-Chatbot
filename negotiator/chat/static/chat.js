@@ -60,10 +60,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function addMessage(text, sender) {
         const message = document.createElement('div');
         message.classList.add('message', `${sender}-message`);
-        message.textContent = text;
+        message.textContent = text.replace('--bot: ','');
         const chatOutput = document.getElementById('chat-output');
         chatOutput.appendChild(message);
         chatOutput.scrollTop = chatOutput.scrollHeight;
+        scrollToBottom();
     }
     
     function getCookie(name) {
@@ -87,5 +88,22 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = '/chat/add_chat';
     });
 
+    const maxLength = 27;
+    const chatContents = document.querySelectorAll('.chat-content');    
+    chatContents.forEach(content => {
+        let text = content.textContent.trim();
+        if (text.length > maxLength) {
+            content.textContent = text.substring(0, maxLength) + '...';
+        }
+    });
 
+    // scroll the content of the chat-box to the bottom
+    function scrollToBottom() {
+        var chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    scrollToBottom();
+    // Observer to call this function whenever the content of the chat-box changes
+    // var observer = new MutationObserver(scrollToBottom);
+    // observer.observe(document.getElementById('chat-box'), { childList: true });
 });
