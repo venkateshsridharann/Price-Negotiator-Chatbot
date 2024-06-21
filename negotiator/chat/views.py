@@ -12,9 +12,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def all_chats(request):
+    current_url = request.build_absolute_uri()
+    url_segments = current_url.split('/')
+    indicator = True if url_segments[-1] == '' else False
     # Filter chat sessions by the logged-in user
     chat_sessions = ChatSession.objects.filter(user=request.user)
-    return render(request, 'chat_interface.html', { 'chat_sessions': chat_sessions})
+    return render(request, 'chat_interface.html', { 'chat_sessions': chat_sessions, 'indicator':indicator})
 
 
 @login_required

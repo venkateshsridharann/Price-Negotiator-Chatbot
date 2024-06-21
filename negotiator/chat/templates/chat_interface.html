@@ -117,6 +117,9 @@
             border-radius: 5px;
             margin-right: 10px;
         }
+        .not-required{
+            display: none;
+        }
         #send-button {
             padding: 10px 20px;
             background-color: #007bff;
@@ -124,6 +127,17 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+        }
+        #new-chat {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            /* background-color:rgba(30, 255, 41, 1);
+             color: #000000; */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
         }
         .product-container {
             background-color: rgba(0, 0, 0, 0.8);
@@ -167,11 +181,11 @@
             margin: 0px;
         }
             #save {
-            background-color: rgba(30, 255, 41, 0.8);
+            background-color: #007bff;
+            color: #fff;
             padding: 10px;
             border-radius: 5px;
             width: 100%;
-            color: #000000;
             margin-top: 10px;
         }
         .back:hover {
@@ -260,17 +274,27 @@
                 </div>
                 
             </div>
+            {% if not indicator %}
             <div id="user-input-container">
-
                 <input type="text" id="user-input" placeholder="Type your message...">
                 <button id="send-button">Send</button>
+                <button id="new-chat" class='not-required'>New Chat</button>
             </div>
+            {% endif %}
+            {% if indicator %}
+            <div id="user-input-container">
+                <input type="text" id="user-input" class='not-required' placeholder="Type your message..." disabled>
+                <button id="new-chat">New Chat</button>
+                <button class='not-required' id="send-button">Send</button>
+            </div>
+            {% endif %}
         </div>
     </div>
    
     <script src="{% static 'chat.js' %}"></script>
     
     <script>
+        // this chat session is used for adding new messages
         var currentUrl = window.location.href;
         currentUrl = currentUrl.split('/').pop()
         document.getElementById('chat-session-id').value = currentUrl;
