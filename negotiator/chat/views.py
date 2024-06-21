@@ -42,12 +42,14 @@ def chat_edit(request,pk):
     chat_sessions = ChatSession.objects.filter(user=request.user)
     # chat to edit
     chat_session = get_object_or_404(ChatSession, id=pk)
+    chat_session.save()
     if request.method == 'POST':
-        # Assuming you have a form to update the content, retrieve the updated data
         updated_content = request.POST.get('updated_content', '')
         chat_session.content = updated_content
         chat_session.save()
-    return render(request, 'chat_interface.html', {'chat_sessions': chat_sessions, "messages":messages})
+
+    return redirect('/chat/'+str(pk))
+    # return render(request, 'chat_interface.html', {'chat_sessions': chat_sessions, "messages":messages})
 
 
 

@@ -86,4 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(window.location.href)
         window.location.href = '/chat/add_chat';
     });
+
+
 });
