@@ -21,7 +21,8 @@ The Price Negotiator Chatbot is designed to assist users in negotiating prices f
 
 ![image](https://github.com/venkateshsridharann/Price-Negotiator-Chatbot/assets/36308828/88d131b6-0c78-44b0-becc-a64dd08d6735)    
   
-![image](https://github.com/venkateshsridharann/Price-Negotiator-Chatbot/assets/36308828/298c468a-3e07-4bfb-be74-582de65a4a39)
+![image](https://github.com/venkateshsridharann/Price-Negotiator-Chatbot/assets/36308828/746025f9-8852-42bb-a04b-59f1b53e0d7d)
+
 
 
 
