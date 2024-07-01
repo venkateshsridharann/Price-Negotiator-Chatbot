@@ -133,6 +133,7 @@
             $('.addToCartForm').on('submit', function(event) {
                 event.preventDefault();  // Prevent the form from submitting the traditional way
                 var $form = $(this);  // Use $(this) to refer to the current form
+                var $submitButton = $form.find('button[type="submit"]'); 
                 $.ajax({
                     type: 'POST',
                     url: $form.attr('action'),
@@ -140,7 +141,17 @@
                     success: function(response) {
                         // Handle the response here
                         console.log('Product added to cart successfully!');
-                        // Optionally, update the DOM elements based on the response
+                        var alertMessage = $('<div style="color:#98FF98;">Added to Cart</div>')
+                        .text(response.message);
+
+                        // Insert the alert message after the submit button
+                        alertMessage.insertAfter($submitButton);
+                    // Automatically remove the alert after 0.5 seconds
+                    setTimeout(function() {
+                        alertMessage.fadeOut('fast', function() {
+                            $(this).remove();
+                        });
+                    }, 500);
                     },
                     error: function(error) {
                         console.log(error);
