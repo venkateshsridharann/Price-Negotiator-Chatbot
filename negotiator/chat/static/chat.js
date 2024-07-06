@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const userInput = document.getElementById('user-input');
+    userInput.focus()
     const userText = userInput.value; // Get the value entered by the user}
     const sendButton = document.getElementById('send-button');
     const chatOutput = document.getElementById('chat-output');
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Re-enable input and button after response
                 userInput.disabled = false;
                 sendButton.disabled = false;
+                userInput.focus()
             });
 
             userInput.value = '';
