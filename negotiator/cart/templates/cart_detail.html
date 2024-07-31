@@ -133,15 +133,15 @@
                                     <p class="lead fw-normal mb-2">{{ item.product.title }}</p>
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                    <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                                    <form class="change-qty" method="post" action="{% url 'remove_from_cart' item.id %}">
                                         {% csrf_token %}
                                         <button type="submit" name="action" class='decrease' value="decrease">-</button>
-                                        <span> {{ item.quantity }} </span>
+                                        <span class="item-quantity"> {{ item.quantity }} </span>
                                         <button type="submit" name="action" class='increase' value="increase">+</button>
                                     </form>
                                 </div>
                                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                    <h5 class="mb-0">${{ item.cartTotal }}</h5>
+                                    <h5 class="mb-0 cart-total">${{ item.cartTotal }}</h5>
                                 </div>
                                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                     <form method="post" action="{% url 'remove_from_cart' item.id %}">
@@ -159,7 +159,7 @@
                 <div class="col-4">
                     <div class="card grandtotal">
                         <div class="card-body p-5">
-                            <h1 style="text-align: center;">Total ${{ grandtotal|floatformat:2 }}</h1>
+                            <h1 class="grandtot" style="text-align: center;">Total ${{ grandtotal|floatformat:2 }}</h1>
                         </div>
                     </div>
                     <div class="card proceed">
@@ -172,5 +172,57 @@
             </div>
         </div>
     </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+        $('.change-qty').on('submit', function(event) {
+            event.preventDefault();  // Prevent the form from submitting the traditional way
+            var $form = $(this);  // Use $(this) to refer to the current form
+
+            // Find the clicked button
+            var actionValue = $form.find('button[type=submit][clicked=true]').val();
+            
+            // Append the action to the serialized form data
+            var formData = $form.serialize() + '&action=' + actionValue;
+
+            $.ajax({
+                type: 'POST',
+                url: $form.attr('action'),
+                data: formData,  // Send the form data with action included
+                success: function(response) {
+                    // Handle the response here
+                    console.log(response);
+                    if (response.new_quantity > 0) {
+                        // alert('Cart updated successfully!');
+                        // Update the quantity displayed
+                        $form.find('.item-quantity').text(response.new_quantity);
+                        // Update the grandtotal displayed
+                        
+                        // Update the cart total displayed
+                        $form.closest('.row').find('.cart-total').text('$' + response.new_cart_total);
+                    } else {
+                        alert('Item removed from cart.');
+                        // Optionally, you can remove the form or item row from the DOM
+                        $form.closest('.item-row').remove(); // Assuming you have a wrapper for each item
+                    }
+                    $('.grandtot').text('Total $' + response.grandtotal);
+                },
+                error: function(error) {
+                    console.log(error);
+                    alert('There was an error updating the cart.');
+                }
+            });
+        });
+
+        // Add a click event to set 'clicked=true' on the clicked button
+        $('.change-qty button[type=submit]').click(function() {
+            $('button[type=submit]', $(this).parents('form')).removeAttr('clicked');
+            $(this).attr('clicked', 'true');
+        });
+    });
+    
+    </script>
+                 
 </body>
 </html>

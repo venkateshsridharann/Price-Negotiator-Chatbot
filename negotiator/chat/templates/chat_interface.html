@@ -79,7 +79,7 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
         #context-box {
-            background-color: rgba(0, 0, 0, 0.7);
+            /* background-color: rgba(0, 0, 0, 0.7); */
             border-radius: 5px;
             padding: 20px;
             display: flex;
@@ -135,6 +135,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        
         #new-chat {
             padding: 10px 20px;
             background-color: #007bff;
@@ -249,7 +250,7 @@
 <body>
     <div id="container">    
         <div id="product-details">    
-            <a href="/"><div class="back">Back</div></a>
+            <a href="/cart"><div class="back">Back</div></a>
             <a href="/chat/add_chat"><div id="save">New Chat</div></a>
             <br><br>
             <h3 style="color: #fff;">Chat Sessions</h3>
@@ -288,7 +289,6 @@
                 <input type="hidden" id="chat-session-id">
                 {% if messages %}
                     <div id="context-box" style="margin-left: 220px;">
-                        <h3 style="color: white;">Previous Chats</h3>
                     </br>
                         {% for m in messages %}
                             <div class= "message {% if m.sender == 'bot' %}bot-message{% else %}user-message{% endif %}" id="context">{{ m.content }}</div>
@@ -296,7 +296,6 @@
                     </div>
                 {% endif %}
                 <br>
-
                 <div id="chat-output">
                 </div>
                 

@@ -114,7 +114,7 @@
                         <p class="product-title">{{ product.title }}</p>
                         <p class="product-price">${{ product.listed_price }}</p>
                         
-                            <form method="post" action="{% url 'add_to_cart' product.id %}">
+                            <form class="addToCartForm" method="post" action="{% url 'add_to_cart' product.id %}">
                                 {% csrf_token %}
                                 <button class='add-to-cart' type="submit">Add to Cart</button>
                             </form>
@@ -128,6 +128,38 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.addToCartForm').on('submit', function(event) {
+                event.preventDefault();  // Prevent the form from submitting the traditional way
+                var $form = $(this);  // Use $(this) to refer to the current form
+                var $submitButton = $form.find('button[type="submit"]'); 
+                $.ajax({
+                    type: 'POST',
+                    url: $form.attr('action'),
+                    data: $form.serialize(),  // Serialize the form data
+                    success: function(response) {
+                        // Handle the response here
+                        console.log('Product added to cart successfully!');
+                        var alertMessage = $('<div style="color:#98FF98;">Added to Cart</div>')
+                        .text(response.message);
 
+                        // Insert the alert message after the submit button
+                        alertMessage.insertAfter($submitButton);
+                    // Automatically remove the alert after 0.5 seconds
+                    setTimeout(function() {
+                        alertMessage.fadeOut('fast', function() {
+                            $(this).remove();
+                        });
+                    }, 500);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                        alert('There was an error adding the product to the cart.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

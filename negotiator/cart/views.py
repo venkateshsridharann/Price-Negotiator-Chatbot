@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Product, CartItem
@@ -28,6 +29,7 @@ def cart_view(request):
 def remove_from_cart(request, item_id):
     cart_item = get_object_or_404(CartItem, id=item_id, user=request.user)
     action = request.POST.get('action')
+
     if action == 'decrease':
         if cart_item.quantity > 1:
             cart_item.cartTotal -= cart_item.product.listed_price
@@ -39,8 +41,21 @@ def remove_from_cart(request, item_id):
         cart_item.save()
     elif action == 'remove':
         cart_item.delete()
-    return redirect('cart_detail')
+    
+    entire_cart = CartItem.objects.filter(user=request.user)
+    grandtotal = sum(item.cartTotal for item in entire_cart)
 
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        print(cart_item.cartTotal)
+        return JsonResponse({
+            'message': 'Cart updated successfully!',
+            'new_quantity': cart_item.quantity,
+            'new_cart_total': cart_item.cartTotal,
+            'grandtotal': grandtotal
+        })
+        
+    else:
+        return redirect('cart_detail')
 
 @login_required
 def cart_detail(request):
