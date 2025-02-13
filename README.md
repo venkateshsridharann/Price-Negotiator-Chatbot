@@ -40,7 +40,7 @@ To run the Price Negotiator Chatbot locally, follow these steps:
 1. Clone the repository:
 
    ```
-    git clone https://github.com/your_username/price-negotiator-chatbot.git
+    git clone https://github.com/venkateshsridharann/price-negotiator-chatbot.git
 
 2. Install Dependencies:
 ```
